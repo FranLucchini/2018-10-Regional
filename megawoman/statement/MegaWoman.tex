@@ -1,0 +1,199 @@
+\documentclass{oci}
+\usepackage[utf8]{inputenc}
+\usepackage{lipsum}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{tabularx}
+
+\title{Mega Woman}
+
+
+
+\begin{document}
+\begin{problemDescription}
+\end{problemDescription}
+
+\begin{scoreDescription}
+  \score{20} Se probarán varios casos donde la velocidad de Mega Woman es 1,
+  todos los robots se mueven hacia la derecha con velocidad 2 y tanto la
+  cantidad de casillas como de robots es menor o igual que $10^5$ ($v_r=2, v_w=1,
+  R\leq 10^5, N\leq 10^5$).
+
+  Para comenzar a resolver el problema, lo primero que debemos considerar es que
+  tanto los movimientos de MegaWoman como de los robots se pueden ver como funciones
+  que dependen del tiempo. Luego, para saber si alg\'un robot ataca a MegaWoman,
+  debemos calcular la interseci\'on entre ambas funciones. Si ese tiempo es positivo
+  y ocurre antes de llegar a la casilla final, se considerar\'a que MegaWoman no 
+  logra escapar en esa situaci\'on.
+
+  \begin{enumerate}
+    \item \textbf{Funci\'on de movimiento de MegaWoman}: sea $P_w$ la posici\'on
+    inicial de MegaWoman. Dado eso, la funci\'on
+    de distancia ser\'ia:
+    $$f_w(t) = P_w + t$$
+    \item \textbf{Funci\'on de movimiento de un robot}: sea $P_r$ la posici\'on
+    inicial del robot. Dado eso, la funci\'on
+    de distancia ser\'ia:
+    $$f_r(t) = P_r + 2 \cdot t$$
+    En este caso, multiplicamos por $2$, porque el robot avanza de dos en dos hacia la
+    derecha.
+  \end{enumerate}
+
+  \textbf{Encontrar la intersecci\'on}: la intersecci\'on entre dos funciones se
+  encuentra cuando ambas funciones tienen el mismo valor, o sea cuando 
+  $f_w(t) = f_r(t)$ en nuestro caso. Con esta igualdad, podemos despejar el valor
+  de $t$ en el que se intersectan (esto significa que el robot atacar\'ia a MegaWoman 
+  con una bomba en ese momento). A continuaci\'on se muestra c\'omo queda expresado $t$:
+  $$ f_w(t) = f_r(t) $$
+  $$ P_w + t = P_r + 2 \cdot t $$
+  $$ P_w - P_r =  1 \cdot t $$
+  $$ P_w - P_r =  t $$
+
+  Es muy importante asegurarse de que:
+  \begin{enumerate}
+    \item El tiempo que obtenemos no sea negativo: $0 <= t$
+    \item La posici\'on en la que ocurre el ataque (la llamaremos $dist$) no sea 
+    mayor al\\ n\'umero de casillas ($N$): $dist < N $ 
+  \end{enumerate}
+
+  Si se cumplen todas estas condiciones, debemos imprimir \texttt{NO}. 
+  En caso contrario, imprimimos \texttt{SI}.
+
+  \textbf{Encontrar la posici\'on  en que ocurre un ataque}: si ya tenemos el valor
+  de $t$, calcular la posici\'on del ataque es simplementa reemplazar el valor de $t$
+  en alguna de las funciones. En este caso, elegimos $f_w(t)$ y supongamos que $t = 2$
+  y que $P_w = 2$:
+  $$dist = f_w(2)$$
+  $$dist = P_w + 2$$
+  $$dist = 2 + 2 = 4$$
+
+  \textbf{Casos especiales}:
+  \begin{enumerate}
+    \item Si la posici\'on inicial de MegaWoman es igual a la de un robot ($P_w = P_r$), imprimimos \texttt{NO}.
+    \item Si la posici\'on inicial de un robot es mayor que la de MegaWoman ($P_w < P_r$), sabemos
+    que no tendr\'an intersecci\'on y nos podemos saltar a ese robot. Esto es as\'i
+    porque los robots avanzan a mayor o igual velocidad que MegaWoman y en la misma 
+    direcci\'on, por ende, llegar\'a antes al final de las casillas.
+  \end{enumerate}
+
+  \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.2pt}}
+
+  \score{20} Se probarán varios casos donde la velocidad de Mega Woman es 1,
+  todos los robots se mueven hacia la izquierda con velocidad -1 y tanto la cantidad
+  de casillas como de robots es menor que $10^5$ ($v_r=-1, v_w=1, R\leq 10^5,
+  N\leq 10^5$).
+
+  En esta subtarea, haremos algo similar pero, cambiaremos un poco la funci\'on
+  de movimiento del robot.
+
+  \begin{enumerate}
+    \item \textbf{Funci\'on de movimiento de MegaWoman}: sea $P_w$ la posici\'on
+    inicial de MegaWoman. Dado eso, la funci\'on
+    de distancia ser\'ia:
+    $$f_w(t) = P_w + t$$
+    \item \textbf{Funci\'on de movimiento de un robot}: sea $P_r$ la posici\'on
+    inicial del robot. Dado eso, la funci\'on
+    de distancia ser\'ia:
+    $$f_r(t) = P_r - t$$
+    En este caso, multiplicamos por $-1$, porque el robot avanza de a una casilla 
+    hacia la izquierda.
+  \end{enumerate}
+
+  \textbf{Encontrar la intersecci\'on}:
+  $$ f_w(t) = f_r(t)$$
+  $$ P_w + t = P_r - t $$
+  $$ P_w - P_r =  -2 \cdot t $$
+  $$ \frac{P_w - P_r}{-2} =  t $$
+  $$ \frac{P_r - P_w}{2} =  t $$
+
+  \newpage
+
+  Ahora que hay una divisi\'on por un n\'umero distinto de $1$, debemos asegurarnos
+  tambi\'en de que el valor del tiempo sea un n\'umero entero. Lo a\~nadimos a la lista:
+  \begin{enumerate}
+    \item El tiempo que obtenemos no sea negativo: $0 <= t$
+    \item La posici\'on en la que ocurre el ataque no sea 
+    mayor al n\'umero de casillas ($N$): $dist < N $
+    \item El tiempo es un n\'umero entero: $ (P_r - P_w) \% 2 = 0$
+  \end{enumerate}
+
+  Si se cumplen todas estas condiciones, debemos imprimir \texttt{NO}. 
+  En caso contrario, imprimimos \texttt{SI}.
+
+  \textbf{Casos especiales}:
+  \begin{enumerate}
+    \item Si la posici\'on inicial de MegaWoman es igual a la de un robot ($P_w = P_r$), imprimimos \texttt{NO}.
+    \item Si la posici\'on inicial de un robot es menor que la de MegaWoman ($P_w > P_r$), sabemos
+    que no tendr\'an intersecci\'on y nos podemos saltar a ese robot. Esto ocurre
+    porque los robots avanzan en posici\'on opuesta a la de MegaWoman y por cada segundo
+    que pase se alejar\'an m\'as, por lo que no se van a encontrar.
+  \end{enumerate}
+
+  \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.2pt}}
+
+  \score{25} Se probarán varios casos en que el número de robots es menor que
+  50, el número de casillas es menor o igual que $10^5$ y sin restricciones sobre las
+  velocidades ($R\leq 50, N\leq 10^5$).
+
+  En esta subtarea, ya no hay restricci\'on sobre los valores de las velocidades. 
+  Ahora es necesario usar los valores de $v_w$ (velocidad de MegaWoman) y $v_r$ (velocidad
+  de un robot).
+
+  \begin{enumerate}
+    \item \textbf{Funci\'on de movimiento de MegaWoman}: sea $P_w$ la posici\'on
+    inicial de MegaWoman y $v_w$ su velocidad. Dado eso, la funci\'on
+    de distancia ser\'ia:
+    $$f_w(t) = P_w + v_w \cdot t$$
+    \item \textbf{Funci\'on de movimiento de un robot}: sea $P_r$ la posici\'on
+    inicial del robot y $v_r$ su velocidad. Dado eso, la funci\'on
+    de distancia ser\'ia:
+    $$f_r(t) = P_r + v_r \cdot t$$
+  \end{enumerate}
+
+  \textbf{Encontrar la intersecci\'on}:
+  $$ f_w(t) = f_r(t) $$
+  $$ P_w + v_w \cdot t = P_r - v_r \cdot t $$
+  $$ P_w - P_r =  v_r \cdot t - v_w \cdot t $$
+  $$ P_w - P_r =  t \cdot (v_r - v_w) $$
+  $$ \frac{P_r - P_w}{v_r - v_w} =  t $$
+
+  Seguimos considerando las mismas condiciones que antes:
+  \begin{enumerate}
+    \item El tiempo que obtenemos no sea negativo: $0 <= t$
+    \item La posici\'on en la que ocurre el ataque no sea 
+    mayor al n\'umero de casillas ($N$): $dist < N $
+    \item El tiempo es un n\'umero entero: $ (P_w - P_r) \% 2 = 0$
+  \end{enumerate}
+
+  Si se cumplen todas estas condiciones, debemos imprimir \texttt{NO}. 
+  En caso contrario, imprimimos \texttt{SI}.
+
+  \textbf{Encontrar la posici\'on  en que ocurre un ataque}: si ya tenemos el valor
+  de $t$, calcular la posici\'on del ataque es simplementa reemplazar el valor de $t$
+  en alguna de las funciones. En este caso, elegimos $f_w(t)$ y supongamos que $t = 2$,
+  $P_w = 2$ y que $v_w = 3$:
+  $$dist = f_w(2)$$
+  $$dist = P_w + v_r \cdot 2$$
+  $$dist = 2 + 3 \cdot 2 = 8$$
+
+  \textbf{Casos especiales}:
+  \begin{enumerate}
+    \item Si la posici\'on inicial de MegaWoman es igual a la de un robot ($P_w = P_r$), imprimimos \texttt{NO}.
+    \item Si la posici\'on inicial de un robot es menor que la de MegaWoman ($P_w > P_r$) y su
+    velocidad es negativa ($v_r < 0$): no se encuentra con MegaWoman; nos saltamos este robot.
+    \item Si la posici\'on inicial de un robot es mayor que la de MegaWoman ($P_w > P_r$) y su
+    velocidad es positiva ($v_r > 0$): no se encuentra con MegaWoman; nos saltamos este robot.
+  \end{enumerate}
+
+  \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.2pt}}
+
+  \score{35} Se probarán varios donde el número de robots es menor o igual que
+  $10^5$, la cantidad de casillas es menor o igual que $10^{12}$ y sin
+  restricciones sobre las velocidades ($R\leq 10^5, N \leq10^{12}$).
+
+  En este \'ultimo caso, debemos considerar que los valores posibles para el n\'umero de
+  casillas es mayor que la capacidad de un \texttt{int}, por lo que pasamos los tipos
+  de nuestras variables a \texttt{long}.
+\end{scoreDescription}
+
+\end{document}

@@ -1,0 +1,70 @@
+\documentclass{oci}
+\usepackage[utf8]{inputenc}
+\usepackage{lipsum}
+\usepackage{tikz}
+
+\title{Reloj inteligente}
+
+\begin{document}
+
+\begin{scoreDescription}
+  \score{20} Se probarán varios casos donde $N\leq 10^2$
+  \score{30} Se probarán varios casos donde $N\leq 2\times 10^3$
+
+  El algoritmo que vamos a seguir recorre en un bucle el arreglo de
+  intervalos y para cada posici\'on, revisar\'a los valores a la derecha en 
+  un segundo bucle. El primer bucle representa la posic\'on inicial del intervalo
+  y el segundo, la posici\'on final del intervalo.
+  
+  El onjetivo es dada una posici\'on inicial, avanzar la posici\'on final hasta
+  lograr sumar una cantidad de metros igual o mayor al valor de $M$.
+  Para encontrar el tiempo que ha transcurrido, debemos restar la posici\'on inicial a 
+  la posici\'on final. Por ejemplo, si tenemos que estamos
+  revisando la posici\'on $3$ y avanzamos hasta la $7$ en el segundo bucle, el
+  tiempo total es $7 - 3 = 4$.
+
+  Cuando hemos obtenido una suma mayor o igual a $M$, debemos preguntarnos si
+  la soluci\'on actual es mejor que una encontrada anteriormente. Para eso,
+  debemos mantener una variable que inicialmente tendr\'a el mayor valor posible
+  y la actualizaremos a medida que encontremos un tiempo menor.
+
+  \score{50} Se probarán varios casos donde $N\leq 10^6$
+
+  Como en esta subtarea trabajamos con n\'umeros m\'as grandes, pensamos en
+  una forma de optimizar el c\'odigo que tenemos.
+
+  En la soluci\'on hasta ahora, cada vez que cambiamos de posici\'on inicial,
+  reiniciamos el valor de la suma a cero y volvemos a buscar un valor para la
+  posici\'on final. El problema es que estamos repitiendo operaciones muchas
+  veces.
+
+  Supongamos que $M = 8$, $N=7$ y el arreglo es $A = [1,3,2,1,2,4,3]$.
+
+  Cuando la posici\'on inicial es $0$, avanzamos hasta la posici\'on final $4$
+  para poder igual o superar $M$, o sea, hacemos: $1+3+2+1+2 = 9$. Luego,
+  cambiamos a la posici\'on inicial en $1$, avanzamos tambi\'en hasta $4$, haci\'endo
+  la suma $3+2+1+2 = 8$. Notamos que en ambos casos sumamos las posiciones
+  de $A[1]$ hasta $A[4]$.
+
+  Para evitar tener que hacer sumas innecesarias, lo ideal ser\'ia mantener la
+  posici\'on final fija y s\'olo moverla en caso de ser necesario. Esto significa
+  que s\'olo moveremos la posici\'on final si es que al mover la posici\'on
+  inicial, la suma que nos queda en menor a $M$.
+
+  Dado eso, ya no tenemos que redefinir el valor de la suma cuando cambiamos
+  la posici\'on inicial. S\'olo debemos asegurarnos de restar los metros
+  de la posici\'on inicial anterior para no inlcuir ese valor en la suma con el nuevo
+  valor.
+
+  Por ejemplo, siguiendo el ejemplo anterior, si ahora la posici\'on inicial es 
+  $1$, debemos restar el valor de $A[0]$ a la suma para tener el valor correcto.
+  Como la suma sigue siento mayor o igual a $M$, no movemos la posici\'on final.
+
+  Luego, cuando queremos cambiar la posici\'on inicial de $1$ a $2$, primero restamos
+  $A[1]$ de la suma: $suma = 8 - A[1] = 8 - 3 = 5$. Como la suma es menor a $M=8$, aumentamos 
+  la posici\'on final de $4$ a $5$ y obtenemos: $suma = 5 + A[5] = 5 + 4 = 9$. Hemos
+  logrado una suma mayor a $M$.
+
+\end{scoreDescription}
+
+\end{document}

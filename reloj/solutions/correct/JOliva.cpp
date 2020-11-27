@@ -15,13 +15,16 @@ int main()
     int suma=0;
     int best=INT_MAX;
     for (int i=0;i<=N;i++){
+        cout << suma << ", i: " << i << ", j: " <<j << endl;
         for (;j<=N and suma<M;j++){
             suma+=metros[j];
         }
+        cout << suma << ", i: " << i << ", j: " <<j << endl;
         if (suma>=M){
             best=min(best, j-i);
         }
         suma-=metros[i];
+        cout << "Best: " << best << endl;
     }
     cout << best << "\n";
     return 0;

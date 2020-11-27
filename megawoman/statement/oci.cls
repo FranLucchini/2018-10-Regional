@@ -67,9 +67,9 @@
 
 \newcommand{\mymaketitle}{
     \begin{center}
-      {\huge\bf \sf Problema \@theproblem}\\
+      {\huge\bf \sf Problema}\\
     \LARGE{\sf \@title}\\[2mm]
-    \normalsize {\em nombre clave:} {\tt \@thecodename}
+    
     \vspace{6pt}
     \end{center}
 }
